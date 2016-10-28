@@ -2,15 +2,51 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class EduApp {
+  static Book[] books = new Book[100];
+  static int length = 0;
+  static Scanner keyScan = new Scanner(System.in);
+
   public static void main(String[] args) {
     System.out.println("비트캠프 관리시스템에 오신걸 환영합니다.");
 
-    Book[] books = new Book[100];
-    int length = 0; // 레퍼런스 배열에 몇개에 책 정보를 저장했는지 개수를 지정한다
-                    // 레퍼런스 배열에 몇 개의 Book 인스턴스가 들어있는지 그 개수를 보관한다.
-    Scanner keyScan = new Scanner(System.in);
+    loop:
+    while (true) {
+      System.out.print("명령> ");
+      String command = keyScan.nextLine().toLowerCase();
+
+      switch (command) {
+      case "add": break;
+      case "list":
+        printBookList(books, length);
+        break;
+      case "view": break;
+      case "quit":
+        System.out.println("Good bye!");
+        break loop;
+      default:
+        System.out.println("지원하지 않는 명령어 입니다.");
+    }
+  }
+}
+  static void printBookList(Book[] books, int length) {
 
 
+  }
+
+  static void doList() {
+    for (int i = 0; i < length; i++) {
+      Book book1 = books[i];
+      System.out.printf("제목 : %s\n",book1.title);
+      System.out.printf("ISBN코드 : %s\n",book1.isbn);
+      System.out.printf("저자 : %s\n",book1.writer);
+      System.out.printf("출판사 : %s\n",book1.publisher);
+      System.out.printf("가격 : %s\n",book1.price);
+      System.out.printf("초판년도 : %s\n",book1.firstYear);
+      System.out.printf("DVD 포함여부 : %s\n",((book1.dvd)?"yes" : "no"));
+    }
+  }
+
+  static void doAdd() {
     while (length < books.length) {
       Book book1 = new Book();
 
@@ -41,20 +77,22 @@ public class EduApp {
       if (!keyScan.nextLine().equals("y"))
         break;
     }
-    printBookList(books, length);
   }
 
-  static void printBookList(Book[] books, int length) {
-
+  static void doView() {
+    System.out.println("조회할 책 이름은? ");
+    String bookname = keyScan.nextLine().toLowerCase();
     for (int i = 0; i < length; i++) {
-      Book book1 = books[i];
-      System.out.printf("제목 : %s\n",book1.title);
-      System.out.printf("ISBN코드 : %s\n",book1.isbn);
-      System.out.printf("저자 : %s\n",book1.writer);
-      System.out.printf("출판사 : %s\n",book1.publisher);
-      System.out.printf("가격 : %s\n",book1.price);
-      System.out.printf("초판년도 : %s\n",book1.firstYear);
-      System.out.printf("DVD 포함여부 : %s\n",((book1.dvd)?"yes" : "no"));
+      if (books[i].title.toLowerCase().equals(bookname)) {
+        System.out.printf("제목 : %s\n",books[i].title);
+        System.out.printf("ISBN코드 : %s\n",books[i].isbn);
+        System.out.printf("저자 : %s\n",books[i].writer);
+        System.out.printf("출판사 : %s\n",books[i].publisher);
+        System.out.printf("가격 : %s\n",books[i].price);
+        System.out.printf("초판년도 : %s\n",books[i].firstYear);
+        System.out.printf("DVD 포함여부 : %s\n",((books[i].dvd)?"yes" : "no"));
+        break;
+      }
     }
   }
 }
